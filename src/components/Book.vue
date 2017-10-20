@@ -13,6 +13,7 @@
         <th>Img</th>
         <th>Author</th>
         <th>Genre </th>
+          <th>Details </th>
       </tr>
       <tr>
       <td>{{book.title}}</td>
@@ -23,24 +24,62 @@
        <td>{{book.img}}</td>
        <td>{{book.a_name}}</td>
        <td>{{book.g_name}}</td>
+       <td> <div class="btnPreOr" v-if="checkUser > 0">
+                <router-link :to="{name: 'order', params: { obj: book }}"><button class="btn btn-primary">Details</button></router-link>
+            </div></td>
       </tr>
       </tbody>
+     
     </table>
   </div>
+ 
 </template>
 
 <script>
 import axios from 'axios'
+ import Order from './Order'
 export default {
   name: 'Book',
-  props: ['book']
+  props: ['book'],
+   data(){
+            return {
+                user: {
+        id: '',
+        hash: '',
+        firstName: '',
+      },
+                checkUser: 0,
+                config: {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                }
+            }
+        },
+        methods: {
+     getCheck: function(){
+                var self = this
+                self.user = JSON.parse(localStorage['user'])
+                if (self.user.id && self.user.hash)
+                {
+                 
+                    self.checkUser = 1
+                     
+                }
+                else{
+                    self.checkUser = 0
+                }
+            },
+  },
+  created(){
+            this.getCheck()
+        }
+          
 }
 </script>
 <style scoped>
 .book{
   text-align: center;
-  margin-top:-2450px;
-  margin-right:-500px;
 }
 .table{
   width: 700px;

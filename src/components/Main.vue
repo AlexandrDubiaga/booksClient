@@ -1,7 +1,11 @@
 <template>
 
   <div class="main">
+  
   <div class="row">
+      <div class="col-md-12">
+        <loginForm></loginForm>
+      </div>
     <div class="col-md-3 ">
     <p class="alert-danger">{{errors}}</p>
       <ul class="nav left-menu">
@@ -14,18 +18,22 @@
       </ul>
     </div>
     <div v-if="success !==0">{{success}}</div>
-
+     <div class="col-md-3 ">
+     <book :book="book" ></book>
+    <author :author="author" ></author>
+    <genre :genre="genre" ></genre>
+    
+     </div>
    
     </div>
-    <author :author="author" ></author>
-     <genre :genre="genre" ></genre>
-      <book :book="book" ></book>
+   
   </div>
 
 </template>
 
 <script>
 import axios from 'axios'
+import Login from './Login'
 import Author from './Author'
 import Genre from './Genre'
 import Book from './Book'
@@ -57,7 +65,6 @@ export default {
       var self = this
           axios.get('http://bookshop/user2/bookShop/client/api/books/', this.config)
             .then(function (response) {
-             //console.log(response.data)
               if (response.status == 200) {
                   self.books = response.data;
               }
@@ -69,6 +76,16 @@ export default {
           console.log(error)
         });
     },
+     getCheck: function(){
+                var self = this
+                if (localStorage['id'] && localStorage['hash'])
+                {
+                    self.checkUser = 1
+                }
+                else{
+                    self.checkUser = ''
+                }
+            },
      getAllGenres: function(){
       var self = this
           axios.get('http://bookshop/user2/bookShop/client/api/genres/', this.config)
@@ -136,7 +153,8 @@ export default {
     this.getAllAuthors(),
     this.getAuthorById(),
     this.getGenresById(),
-    this.getBookById()
+    this.getBookById(),
+    this.getCheck()
   
   },
   computed:{},
@@ -144,6 +162,7 @@ export default {
           'Author': Author,
            'Genre': Genre,
            'Book': Book,
+           'loginForm': Login
 
     },
 }
@@ -172,5 +191,8 @@ export default {
   .book-list p  {
     color:#535353;
     font-size:16px;
+  }
+  .main{
+   background-color:#00FA9A;
   }
 </style>

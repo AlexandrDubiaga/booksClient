@@ -26,7 +26,6 @@ export default {
 <style scoped>
 .author{
   text-align: center;
-  margin-top:-500px;
 }
 .table{
   width: 500px;

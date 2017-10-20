@@ -26,7 +26,6 @@ export default {
 <style scoped>
 .genre{
   text-align: center;
-  margin-top:-950px;
 }
 .table{
   width: 500px;
